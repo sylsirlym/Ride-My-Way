@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>
+                Ride-My-Way
+            </title>
+            <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+        </head>
+        <body>
+            <div  
+                class="header"> <p><a href="index.html">HOME</a> |  <a href="profile.html">PROFILE</a> | <a href="requests.html">REQUESTED RIDES</a> |  <a href="allRides.html">VIEW RIDES</a> | <a href="login.html">LOG OUT</a></p>
+            </div> 
+            <div class="banner">    	   
+                <img src="images/banner.jpg"  class="img-responsive" alt="slide">
+                <div class="welcome-message">
+                    <div class="wrap-info">
+                        <div class="information">
+                            <h1  class="animated fadeInDown">Ride-My-Way</h1>
+                            <p class="animated fadeInUp">Find and share rides with great people going your way.</p>
+                            <div class="main" align="center">
+                                <h3>Create a Ride</h3>
+                                <div class="row">
+                                        <form class="col full" action="" method="post" name="Ride" id="Ride">
+                                          <div class="row">
+                                            <div class="input-field col half">
+                                                <label for="start">Start Location</label>
+                                                <input type="text" id="start" name="start" placeholder="Enter Start Location.." required>
+                                            </div>
+                                            <div class="input-field col half">
+                                                <label for="end">End Location</label>
+                                                <input type="text" id="end" name="end" placeholder="Enter End Location.." required>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="input-field col full">
+                                                <label for="route">Route</label>
+                                                <input type="text" id="route" name="route" placeholder="Enter route details.." required>
+                                            </div>
+                                          </div>
+                                        <div class="row">
+                                           <div class="input-field col full">
+                                                <label for="time">Depature Time</label>
+                                                <input type="text" id="time" name="time" placeholder="Enter depature time.." required>
+                                            </div>
+                                            <div class="row">
+                                           <div class="input-field col full">
+                                                <label for="date">Date</label>
+                                                <input type="date" id="date" name="date" placeholder="Enter depature time.." required>
+                                            </div>
+                                            <div class="input-field col full">
+                                                <label for="cost">Cost per Seat</label>
+                                                <input type="text" id="cost" name="cost" placeholder="Enter cost per seat.." required>
+                                            </div>
+                                        </div>
+                                        <div align="center">
+                                             <button class="button" type="submit" name="add" id="add">Add Ride</button>
+                                         </div>
+                                        </form>
+                                </div>
+                    
+                            </div>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
