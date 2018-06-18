@@ -1,3 +1,4 @@
+
 body{
     background-color: rgb(255, 255, 255); 
     font-family: 'Raleway', sans-serif;
@@ -124,8 +125,20 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
     box-sizing: border-box;
     }
 
+    .button{
+      width:200px; 
+      height:50px; 
+      border:0px solid; 
+      background-color:#09F; 
+      color:#FFF; 
+        }
+  .button:hover{ 
+      background-color:rgb(64, 107, 136); 
+      color:#FFF;
+  }
+@media all and (max-width:50em){
 .button{
-    width:200px; 
+    width:100%; 
     height:50px; 
     border:0px solid; 
     background-color:#09F; 
@@ -134,6 +147,7 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
 .button:hover{ 
     background-color:rgb(64, 107, 136); 
     color:#FFF;
+}
 }
 .imgcontainer {
     text-align: center;
@@ -214,8 +228,8 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
     width: 50%; /* Full width */
     height: 50%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(50,50,50); /* Fallback color */
+    background-color: rgba(50,50,50,50.4); /* Grey w/ opacity */
 }
 
 /* Modal Content */
@@ -245,13 +259,13 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
 /*Header*/
 a:link {
 	color: #42413C;
-	text-decoration: none /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
+	text-decoration: none;
 }
 a:visited {
 	color: #6E6C64;
 	text-decoration: none;
 }
-a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+a:hover, a:active, a:focus {
 	text-decoration: underline;
 }
 
