@@ -1,0 +1,264 @@
+body{
+    background-color: rgb(255, 255, 255); 
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    line-height: 15px; 
+    color: #73726C;}
+
+h1,h2,h3,h4,h5,h6{font-family:'Old Standard TT', serif;line-height: 1em; margin: 0;}
+h1{font-size: 5em; color: #09F}
+h1.title,h2{font-size: 2em;line-height: 3em;}
+h3{font-size: 1.5em; margin-bottom: 0.70em;}
+h4{font-size: 1.25em; margin-bottom: 0.75em;}
+p{margin-bottom: 1em;line-height: 1.5em;}
+
+/*Logo*/
+.circle {
+  border-radius: 50%;
+  width: 200;
+  height: 150;
+  align: left;
+  display: block;
+}
+
+/*Animation*/
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+ 
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(-20px);
+      -ms-transform: translateY(-20px);
+      transform: translateY(-20px);
+    }
+  
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+
+  
+  .fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+  }
+  
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateX(-200px);
+      -ms-transform: translateX(-200px);
+      transform: translateX(-200px);
+    }
+  
+    100% {
+      opacity: 1;
+      -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+      transform: translateX(0);
+    }
+  }
+  
+  .fadeInLeft {
+    -webkit-animation-name: fadeInLeft;
+    animation-name: fadeInLeft;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(20px);
+      -ms-transform: translateY(20px);
+      transform: translateY(20px);
+    }
+  
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  
+  .fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+  }
+
+/*SLIDER*/
+.banner {position: relative;color: #fff;}
+.banner p{font:300 1.35em/4em 'Old Standard TT', serif;margin:0; }
+.banner img.img-responsive{width: 100%; opacity: 0.8;}
+.banner .welcome-message{position: absolute;left: 0;right:0;bottom:0;top:0;text-align: center;}
+.banner .welcome-message .wrap-info{display: table;height: 100%;width: 100%;}
+.banner .welcome-message .wrap-info .information{display: table-cell;vertical-align: middle;}
+.main{
+    width: 32%;
+    margin: 45px auto;
+    background:rgba(150, 150, 150, 0.90);
+    padding: 30px 30px;
+}
+/*Form*/
+.form{ 
+    width:350px; 
+    height:auto;
+   }
+.formElement{ width:350px; margin:6px auto; height:40px;}	 
+
+input[type=text], input[type=password], input[type=date], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; 
+    display: inline-block;
+    border: 1px solid #06F;
+    border-radius: 4px;
+    box-sizing: border-box;
+    }
+
+.button{
+    width:200px; 
+    height:50px; 
+    border:0px solid; 
+    background-color:#09F; 
+    color:#FFF; 
+      }
+.button:hover{ 
+    background-color:rgb(64, 107, 136); 
+    color:#FFF;
+}
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+
+.row {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .row .col {
+    float: left;
+    box-sizing: border-box;
+    padding: 0 0.75rem;
+    min-height: 1px;
+  }
+  
+  .row .col[class*="push-"], .row .col[class*="pull-"] {
+    position: relative;
+  }
+
+  .row .col.half {
+    width: 50%;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
+  
+  .row .col.full {
+    width: 100%;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
+
+#rides {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: rgb(0, 0, 0);
+    border-collapse: collapse;
+    width: 80%;
+}
+
+#rides td, #rides th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#rides tr:nth-child(even){background-color: #d6d1d1;}
+#rides tr:nth-child(odd){background-color: #8d8b8b;}
+
+#rides tr:hover {background-color: rgb(80, 80, 80);}
+
+#rides th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(42, 65, 199, 0.5);
+    color: white;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 30%;
+    top: 30%;
+    width: 50%; /* Full width */
+    height: 50%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: rgb(189, 189, 188);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid rgb(31, 103, 197);
+    width: 80%;
+    height: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*Header*/
+a:link {
+	color: #42413C;
+	text-decoration: none /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
+}
+a:visited {
+	color: #6E6C64;
+	text-decoration: none;
+}
+a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+	text-decoration: underline;
+}
+
+.header {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+	background: rgba(255,255,255,0.5);
+	height:70px;
+    text-align:center;
+    font-size: 20px
+}
