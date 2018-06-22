@@ -23,12 +23,14 @@ def register():
                                  "email": email, 
                                  "password": password
                                  }), 201)
+  
 @app.route('/api/v1/login')
 def login():
     return make_response(jsonify({
                                  "status": "ok",
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
+
 
 if __name__ == '__main__':
 

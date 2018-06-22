@@ -22,12 +22,12 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(result["password"], "pass123")
         self.assertEqual(response.status_code, 201)
 
+
     def test_login(self):
         response = self.app.get('/api/v1/login')
         result = json.loads(response.data)
         self.assertEqual(result["msg"], "You are logged in.Nice to see you again.")
         self.assertEqual(response.status_code, 200)
-
 
 
 if __name__ == '__main__':
