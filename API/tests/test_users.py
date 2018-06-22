@@ -21,7 +21,10 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(result["email"], "mail@gmail.com")
         self.assertEqual(result["password"], "pass123")
         self.assertEqual(response.status_code, 201)
-
+"""GIVEN a  user
+   WHEN the user enters authentication details
+   THEN it checks the details and authenticates
+   """
 
     def test_login(self):
         response = self.app.get('/api/v1/login')
