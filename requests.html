@@ -4,7 +4,7 @@
             <title>
                 Ride-My-Way
             </title>
-            <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="style/style.css" media="screen,projection"/>
         </head>
         <body>
                 <div  
@@ -40,7 +40,7 @@
                                         <td>13/6/2018</td>
                                         <td>Thika Super Highway</td>
                                         <td>400</td>
-                                        <td><button class="button" type="submit" name="Request" id="Request">Respond</button></td>
+                                        <td><button class="button" id="myBtn" type="submit" name="Request" id="Request">Respond</button></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -58,5 +58,22 @@
                     </div>
                 </div>
             </div>
+            <!-- The Modal --> 
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form>
+                            <div class="input-field col half">
+                                    <label for="pickup">Enter Response</label>
+                                    <input type="text" id="respo" placeholder="Enter Response">
+                            </div>
+                            <button class="button" type="submit" name="Send" id="Send">Send</button>
+                        </form>
+                    </div>
+                </div>
+          </div>
+                <script src="js/modal.js"></script>
         </body>
     </html>
