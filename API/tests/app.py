@@ -24,11 +24,17 @@ def register():
                                  "password": password
                                  }), 201)
   
-@app.route('/api/v1/login')
+@app.route('/api/v1/login' , methods=['GET', 'POST'])
 def login():
     return make_response(jsonify({
                                  "status": "ok",
                                  "msg": "You are logged in.Nice to see you again." 
+                                 }), 200)
+
+@app.route('/api/v1/allRides', methods=['GET'])
+def allRides():
+    return make_response(jsonify({
+                                 "status": "ok",
                                  }), 200)
 
 
