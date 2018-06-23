@@ -5,7 +5,8 @@ install:
   - "pip install -r requirements.txt"
   - pip install coveralls
 script:
-  - python -m pytest --cov-report term-missing --cov=resources
+  - coverage run -m unittest discover tests/
+  - coverage report
 after_success:
   - coveralls
 notifications:
