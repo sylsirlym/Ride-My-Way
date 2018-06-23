@@ -31,11 +31,20 @@ def login():
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
 
-@app.route('/api/v1/allRides', methods=['GET'])
-def allRides():
+@app.route('/api/v1/rides', methods=['GET'])
+def rides():
     return make_response(jsonify({
                                  "status": "ok",
                                  }), 200)
+
+@app.route('/api/v1/ride/1', methods=['POST'])
+def request_ride():
+    data = request.get_json()
+    pickup_loc = data['pickup_loc']
+    return make_response(jsonify({
+                                 "status": "Success",
+                                 "pickup_loc" : pickup_loc
+                                 }), 201)                                 
 
 @app.route('/api/v1/rides',  methods = ['POST'])
 def create_ride():
@@ -58,6 +67,14 @@ def create_ride():
                                  "cost": cost
                                  }), 201)
 
+@app.route('/api/v1/rides/1',  methods = ['GET'])
+def specific_ride():
+    data = request.get_json()
+    id = data ['id']
+    return make_response(jsonify({
+                                 "status": "ok",
+                                 "id" : id
+                                 }), 200)
 if __name__ == '__main__':
 
     app.run(debug=True)
