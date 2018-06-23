@@ -39,9 +39,7 @@ def allRides():
 
 @app.route('/api/v1/allRides/1', methods=['GET' , 'POST'])
 def request_ride():
-    return make_response(jsonify({
-                                 "status": "ok",
-                                 }), 200)
+    return make_response(jsonify({"status": "ok",}), 200)
 
 
 if __name__ == '__main__':

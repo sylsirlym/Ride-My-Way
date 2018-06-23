@@ -21,7 +21,6 @@ class AppTestCase(unittest.TestCase):
     '''
     def test_rides(self):
         response = self.app.get('/api/v1/allRides')
-        result = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
     
     '''
@@ -31,5 +30,4 @@ class AppTestCase(unittest.TestCase):
     '''
     def test_ride_request(self):
         response = self.app.get('/api/v1/allRides/1')
-        result = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
