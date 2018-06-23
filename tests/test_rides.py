@@ -23,5 +23,19 @@ class AppTestCase(unittest.TestCase):
     
     def test_rides(self):
         response = self.app.get('/api/v1/allRides')
-        result = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
+    """GIVEN a user
+    WHEN the user wants to create a ride
+    THEN it checks the details
+    """
+    def test_create_ride(self):
+        response = self.app.post('/api/v1/rides', data = json.dumps(self.ride_one) , content_type = 'application/json')
+        result = json.loads(response.data)
+        self.assertEqual(result["driver"], "John" + " Doe")
+        self.assertEqual(result["start_loc"], "Nairobi")
+        self.assertEqual(result["end_loc"], "Thika")
+        self.assertEqual(result["departure_time"], "1800HRS")
+        self.assertEqual(result["date"], "13/6/2018")
+        self.assertEqual(result["route"], "Thika Super Highway")
+        self.assertEqual(result["cost"], "400")
+        self.assertEqual(response.status_code, 201)
