@@ -11,6 +11,6 @@ after_success:
 notifications:  email: false
 
 # blocklist
-branches:
-  except:
-  - Develop-UI
+#branches:
+#  except:
+#  - Develop-UI
