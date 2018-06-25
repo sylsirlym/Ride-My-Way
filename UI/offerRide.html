@@ -38,18 +38,24 @@
                                             </div>
                                           </div>
                                         <div class="row">
-                                           <div class="input-field col full">
+                                           <div class="input-field col half">
                                                 <label for="time">Depature Time</label>
-                                                <input type="text" id="time" name="time" placeholder="Enter depature time.." required>
+                                                <input type="time" name="usr_time" id="time" name="time" placeholder="Enter depature time.." required>
                                             </div>
-                                            <div class="row">
-                                           <div class="input-field col full">
+                                            
+                                           <div class="input-field col half">
                                                 <label for="date">Date</label>
                                                 <input type="date" id="date" name="date" placeholder="Enter depature time.." required>
                                             </div>
-                                            <div class="input-field col full">
+                                        </div>
+                                            <div class="input-field col min">
+                                                    <label for="cost">&nbsp;</label>
+                                                <input type="text" placeholder="KSH" disabled>
+                                            </div>
+                                            <div class="input-field col minfull">
+                                
                                                 <label for="cost">Cost per Seat</label>
-                                                <input type="text" id="cost" name="cost" placeholder="Enter cost per seat.." required>
+                                                <input type="number" min="100.00" max="10000.00" step="0.01" title="Digits only" id="cost" name="cost" placeholder="Enter cost per seat.." required>
                                             </div>
                                         </div>
                                         <div align="center">

@@ -4,7 +4,7 @@
             <title>
                 Ride-My-Way
             </title>
-            <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="style/style.css" media="screen,projection"/>
         </head>
         <body>
             
@@ -24,29 +24,29 @@
                                           <div class="row">
                                             <div class="input-field col half">
                                                 <label for="fname">First Name</label>
-                                                <input type="text" placeholder="First name.." required>
+                                                <input type="text" pattern="[A-Za-z].{1,}" title= "Enter a valid name" placeholder="First name.." required>
                                             </div>
                                             <div class="input-field col half">
                                                 <label for="lname">Last Name</label>
-                                                <input type="text" placeholder="Last name.." required>
+                                                <input type="text" pattern="[A-Za-z].{1,}" title= "Enter a valid name" placeholder="Last name.." required>
                                             </div>
                                           </div>
                                           <div class="row">
                                             <div class="input-field col full">
                                                 <label for="email">Email</label>
-                                                <input type="text" pattern="[^ @]*@[^ @]*" placeholder="Email.." required>
+                                                <input type="email" placeholder="Email.." required>
                                             </div>
                                           </div>
                                         <div class="row">
                                            <div class="input-field col half">
                                                 <label for="pass">Password</label>
-                                                <input type="password" placeholder="Password.." required>
+                                                <input type="password" id= "pass" placeholder="Password.." required onkeyup='check();'>
                                             </div>
                                             <div class="input-field col half">
                                                 <label for="cpass">Confirm Password</label>
-                                                <input type="password" placeholder="Confirm Password.." required>
-                                            </div>
-                                        </div>
+                                                <input type="password" id="cpass" placeholder="Confirm Password.." onkeyup='check();'>
+                                                <span id='message'></span>
+                                                </div>
                                         <div align="center">
                                             <a href="profile.html"><button class="button" type="submit">Register</button></a>
                                          </div>
@@ -58,5 +58,6 @@
                     </div>
                 </div>
             </div>
+            <script src="js/validate.js"></script>
         </body>
     </html>
