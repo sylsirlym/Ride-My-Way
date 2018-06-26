@@ -25,7 +25,7 @@ class AppTestCase(unittest.TestCase):
     THEN test that all rides are returned
     '''
     def test_rides(self):
-        response = self.app.get('/api/v1/rides')
+        response = self.app.get('/api/v1/rides', data = json.dumps(self.ride_two) , content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
     
     '''

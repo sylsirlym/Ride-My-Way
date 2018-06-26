@@ -9,7 +9,7 @@ import json
 app = Flask (__name__)
 
 
-@app.route('/api/v1/register',  methods = ['POST'])
+@app.route('/api/v1/users/register',  methods = ['POST'])
 def register():
     data = request.get_json()
     fname = data['fname']
@@ -24,17 +24,37 @@ def register():
                                  "password": password
                                  }), 201)
   
-@app.route('/api/v1/login' , methods=['GET', 'POST'])
+@app.route('/api/v1/users/login', methods=['GET', 'POST'])
 def login():
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
     return make_response(jsonify({
                                  "status": "ok",
+                                 "email": email, 
+                                 "password": password,
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
 
 @app.route('/api/v1/rides', methods=['GET'])
 def allRides():
+    data = request.get_json()
+    driver = data['driver']
+    start_loc = data['start_loc']
+    end_loc = data['end_loc']
+    departure_time = data['departure_time']
+    date = data['date']
+    route = data['route']
+    cost = data['cost']
     return make_response(jsonify({
-                                 "status": "ok",
+                                 "status": "Ok",
+                                 "driver": driver ,
+                                 "start_loc": start_loc , 
+                                 "end_loc": end_loc, 
+                                 "departure_time": departure_time,
+                                 "date": date, 
+                                 "route": route, 
+                                 "cost": cost
                                  }), 200)
 
 @app.route('/api/v1/rides',  methods = ['POST'])
