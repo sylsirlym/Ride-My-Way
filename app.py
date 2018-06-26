@@ -4,12 +4,12 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from flask import make_response
-import json 
+import json
 
 app = Flask (__name__)
 
 "////////////////////////////////////////////////////////////////////"
-@app.route('/api/v1/users/register',  methods = ['POST'])
+#@app.route('/api/v1/users/register',  methods = ['POST'])
 def register():
     data = request.get_json()
     fname = data['fname']
@@ -24,7 +24,7 @@ def register():
                                  "password": password
                                  }), 201)
 "///////////////////////////////////////////////////////////////////////////" 
-@app.route('/api/v1/users/login', methods=['GET', 'POST'])
+#@app.route('/api/v1/users/login', methods=['GET', 'POST'])
 def login():
     data = request.get_json()
     email = data['email']
@@ -36,7 +36,7 @@ def login():
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
 "/////////////////////////////////////////////////////////////////////////////////////"
-@app.route('/api/v1/rides', methods=['GET'])
+#@app.route('/api/v1/rides', methods=['GET'])
 def allRides():
     data = request.get_json()
     driver = data['driver']
@@ -57,9 +57,10 @@ def allRides():
                                  "cost": cost
                                  }), 200)
 "/////////////////////////////////////////////////////////////////////////////////////////////"                                
-@app.route('/api/v1/rides/1', methods=['GET'])
-def ride():
+#@app.route('/api/v1/rides/<int:id>', methods=['GET'])
+def ride(id):
     data = request.get_json()
+    id = 1
     driver = data['driver']
     start_loc = data['start_loc']
     end_loc = data['end_loc']
@@ -78,9 +79,10 @@ def ride():
                                  "cost": cost
                                  }), 200)
 "//////////////////////////////////////////////////////////////////////////////////////////////////"
-@app.route('/api/v1/rides',  methods = ['POST'])
+#@app.route('/api/v1/rides',  methods = ['POST'])
 def create_ride():
     data = request.get_json()
+    id = data ['id']
     driver = data['driver']
     start_loc = data['start_loc']
     end_loc = data['end_loc']
@@ -101,7 +103,7 @@ def create_ride():
 "///////////////////////////////////////////////////////////////////////////////////////////////"
 @app.route('/api/v1/rides/1/requests',  methods = ['POST'])
 def request_ride():
-    data = request.get_json()
+    #data = request.get_json()
     pickup_loc = data['pickup_loc']
     return make_response(jsonify({
                                  "status": "Created",
