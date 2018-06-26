@@ -37,10 +37,26 @@ def allRides():
                                  "status": "ok",
                                  }), 200)
 
-@app.route('/api/v1/allRides/1', methods=['GET' , 'POST'])
-def request_ride():
-    return make_response(jsonify({"status": "ok",}), 200)
-
+@app.route('/api/v1/rides',  methods = ['POST'])
+def create_ride():
+    data = request.get_json()
+    driver = data['driver']
+    start_loc = data['start_loc']
+    end_loc = data['end_loc']
+    departure_time = data['departure_time']
+    date = data['date']
+    route = data['route']
+    cost = data['cost']
+    return make_response(jsonify({
+                                 "status": "ok",
+                                 "driver": driver ,
+                                 "start_loc": start_loc , 
+                                 "end_loc": end_loc, 
+                                 "departure_time": departure_time,
+                                 "date": date, 
+                                 "route": route, 
+                                 "cost": cost
+                                 }), 201)
 
 if __name__ == '__main__':
 
