@@ -8,7 +8,7 @@ import json
 
 app = Flask (__name__)
 
-
+"////////////////////////////////////////////////////////////////////"
 @app.route('/api/v1/users/register',  methods = ['POST'])
 def register():
     data = request.get_json()
@@ -23,7 +23,7 @@ def register():
                                  "email": email, 
                                  "password": password
                                  }), 201)
-  
+"///////////////////////////////////////////////////////////////////////////" 
 @app.route('/api/v1/users/login', methods=['GET', 'POST'])
 def login():
     data = request.get_json()
@@ -35,7 +35,7 @@ def login():
                                  "password": password,
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
-
+"/////////////////////////////////////////////////////////////////////////////////////"
 @app.route('/api/v1/rides', methods=['GET'])
 def allRides():
     data = request.get_json()
@@ -56,7 +56,7 @@ def allRides():
                                  "route": route, 
                                  "cost": cost
                                  }), 200)
-                                
+"/////////////////////////////////////////////////////////////////////////////////////////////"                                
 @app.route('/api/v1/rides/1', methods=['GET'])
 def ride():
     data = request.get_json()
@@ -77,7 +77,7 @@ def ride():
                                  "route": route, 
                                  "cost": cost
                                  }), 200)
-
+"//////////////////////////////////////////////////////////////////////////////////////////////////"
 @app.route('/api/v1/rides',  methods = ['POST'])
 def create_ride():
     data = request.get_json()
@@ -98,7 +98,7 @@ def create_ride():
                                  "route": route, 
                                  "cost": cost
                                  }), 201)
-
+"///////////////////////////////////////////////////////////////////////////////////////////////"
 @app.route('/api/v1/rides/1/requests',  methods = ['POST'])
 def request_ride():
     data = request.get_json()

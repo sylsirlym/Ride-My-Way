@@ -19,29 +19,31 @@ class AppTestCase(unittest.TestCase):
         self.ride_two = {"driver" : "Jane Doe" , "start_loc" : "Nairobi", "end_loc" : "Syokimau",
             "departure_time" : "0900HRS", "date" : "14/6/2018" , "route" : "Mombas Road" , "cost" : "200"}
         self.request = { "pickup_loc" : "Roysambu"}
-    '''
-    GIVEN a user
-    WHEN they view rides
-    THEN test that all rides are returned
-    '''
+    "//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
     def test_rides(self):
+        '''
+        GIVEN a user
+        WHEN they view rides
+        THEN test that all rides are returned
+        '''
         response = self.app.get('/api/v1/rides', data = json.dumps(self.ride_two) , content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
-    
-    '''
-    GIVEN a user
-    WHEN they view a single ride
-    THEN test that the ride is returned
-    '''
+    "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
     def test_ride(self):
+        '''
+        GIVEN a user
+        WHEN they view a single ride
+        THEN test that the ride is returned
+        '''
         response = self.app.get('/api/v1/rides/1', data = json.dumps(self.ride_two) , content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
     
-    '''
-    GIVEN a user
-    WHEN they want to request a ride
-    THEN test that they can send a request
-    '''
+    "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
     def test_ride_request(self):
+        '''
+        GIVEN a user
+        WHEN they want to request a ride
+        THEN test that they can send a request
+        '''
         response = self.app.post('/api/v1/rides/1/requests', data = json.dumps(self.request) , content_type = 'application/json')
         self.assertEqual(response.status_code, 201)
