@@ -114,7 +114,7 @@ p{margin-bottom: 1em;line-height: 1.5em;}
    }
 .formElement{ width:350px; margin:6px auto; height:40px;}	 
 
-input[type=text], input[type=password], input[type=date], input[type=email] {
+input[type=text], input[type=password], input[type=date], input[type=email], input[type=time], input[type=number] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -124,6 +124,9 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
     border-radius: 4px;
     box-sizing: border-box;
     }
+    input[type="text"][disabled] {
+      color: black;
+   }
 
     .button{
       width:200px; 
@@ -191,7 +194,18 @@ input[type=text], input[type=password], input[type=date], input[type=email] {
     left: auto;
     right: auto;
   }
-
+  .row .col.minfull {
+    width: 70%;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
+  .row .col.min {
+    width: 30%;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
 #rides {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     color: rgb(0, 0, 0);
