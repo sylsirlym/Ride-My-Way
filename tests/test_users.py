@@ -1,8 +1,15 @@
 """Test all methods dealing with user endpoints
 """
-from app import app
 import unittest
 import json
+import os
+
+
+import sys  # fix import errors
+import unittest
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app import app
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
