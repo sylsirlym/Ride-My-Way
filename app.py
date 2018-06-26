@@ -56,6 +56,27 @@ def allRides():
                                  "route": route, 
                                  "cost": cost
                                  }), 200)
+                                
+@app.route('/api/v1/rides/1', methods=['GET'])
+def ride():
+    data = request.get_json()
+    driver = data['driver']
+    start_loc = data['start_loc']
+    end_loc = data['end_loc']
+    departure_time = data['departure_time']
+    date = data['date']
+    route = data['route']
+    cost = data['cost']
+    return make_response(jsonify({
+                                 "status": "Ok",
+                                 "driver": driver ,
+                                 "start_loc": start_loc , 
+                                 "end_loc": end_loc, 
+                                 "departure_time": departure_time,
+                                 "date": date, 
+                                 "route": route, 
+                                 "cost": cost
+                                 }), 200)
 
 @app.route('/api/v1/rides',  methods = ['POST'])
 def create_ride():
