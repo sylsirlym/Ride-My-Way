@@ -30,6 +30,15 @@ class AppTestCase(unittest.TestCase):
     
     '''
     GIVEN a user
+    WHEN they view a single ride
+    THEN test that the ride is returned
+    '''
+    def test_ride(self):
+        response = self.app.get('/api/v1/rides/1', data = json.dumps(self.ride_two) , content_type = 'application/json')
+        self.assertEqual(response.status_code, 200)
+    
+    '''
+    GIVEN a user
     WHEN they want to request a ride
     THEN test that they can send a request
     '''
