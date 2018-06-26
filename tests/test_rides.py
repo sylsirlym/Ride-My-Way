@@ -1,9 +1,14 @@
+"""Test all methods dealing with user endpoints
 """
-Test all methods dealing with ride endpoints
-"""
-from app import app
 import unittest
 import json
+import os
+
+import sys  # fix import errors
+import unittest
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app import app
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
@@ -20,7 +25,7 @@ class AppTestCase(unittest.TestCase):
     THEN test that all rides are returned
     '''
     def test_rides(self):
-        response = self.app.get('/api/v1/allRides')
+        response = self.app.get('/api/v1/rides')
         self.assertEqual(response.status_code, 200)
     
     '''
@@ -29,5 +34,5 @@ class AppTestCase(unittest.TestCase):
     THEN test that they can send a request
     '''
     def test_ride_request(self):
-        response = self.app.get('/api/v1/allRides/1')
-        self.assertEqual(response.status_code, 200)
+        response = self.app.post('/api/v1/rides/1/requests', data = json.dumps(self.request) , content_type = 'application/json')
+        self.assertEqual(response.status_code, 201)

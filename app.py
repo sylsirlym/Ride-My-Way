@@ -31,7 +31,7 @@ def login():
                                  "msg": "You are logged in.Nice to see you again." 
                                  }), 200)
 
-@app.route('/api/v1/allRides', methods=['GET'])
+@app.route('/api/v1/rides', methods=['GET'])
 def allRides():
     return make_response(jsonify({
                                  "status": "ok",
@@ -48,7 +48,7 @@ def create_ride():
     route = data['route']
     cost = data['cost']
     return make_response(jsonify({
-                                 "status": "ok",
+                                 "status": "Created",
                                  "driver": driver ,
                                  "start_loc": start_loc , 
                                  "end_loc": end_loc, 
@@ -58,6 +58,14 @@ def create_ride():
                                  "cost": cost
                                  }), 201)
 
+@app.route('/api/v1/rides/1/requests',  methods = ['POST'])
+def request_ride():
+    data = request.get_json()
+    pickup_loc = data['pickup_loc']
+    return make_response(jsonify({
+                                 "status": "Created",
+                                 "pickup_loc": pickup_loc ,
+                                 }), 201)
 if __name__ == '__main__':
 
     app.run(debug=True)
