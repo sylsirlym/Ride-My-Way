@@ -2,19 +2,13 @@
 This gives the interactive documentation to help in getting started using the API
 """
 import os
-
-from flasgger import Swagger
-
-import sys  # fix import errors
-import unittest
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+from flask import Flask,jsonify,request
 from app import app
-
-swagger = Swagger(app)
+from data import rides, users
+import json
 
 # Users
-@app.route('/api/v1/users', methods=["POST"])
+@app.route('/api/v1/users/register', methods=["GET", "POST"])
 def signup():
     """ 
     User registeration endpoint.
@@ -41,57 +35,48 @@ def signup():
         type: string
         required: true
     """
+    if request.method == 'GET':
+        return jsonify({'fields to fill': users})
+    elif request.method == 'POST':
+        new_user = {
+            'fname': request.json['fname'],
+            'lname': request.json['lname'],
+            'email': request.json['email'],
+            'password': request.json['password']
+        }
 
+    #add the new use to list of users
+    users.append(new_user)
+    return jsonify({'users': users})
+"/////////////////////////////////////////////////////////////////////////////////////////"
 
-@app.route("/api/v1/users/<int:user_id>", methods=["GET"])
-def get_single_user():
-    """Getting single user endpoint
-    ---
-    parameters:
-      - name: user_id
-        in: path
-        type: integer
-        required: true
-    """
+@app.route('/api/v1/users/login', methods=['GET', 'POST'])
+def login():
+    known_user = {
+        'email': '',
+        'password': ''
+    }
+    if request.method=='GET':
+        return jsonify({'Enter this':known_user})
 
-@app.route('/api/v1/users/<int:user_id>', methods=["PUT"])
-def update_user():
-    """ Update a user endpoint
-    parameters:
-      - name: email
-        in: application/json
-        type: string
-        required: true
-      - name: password
-        in: application/json
-        type: string
-        required: true
-      - name: conf_password
-        in: application/json
-        type: string
-        required: true
-      - name: id
-        in: path
-        type: integer
-        required: true
-    """
+    elif request.method == 'POST':
+        known_user = {
+            'email': request.json['email'],
+            'password': request.json['password']
+        }
+        #loop through users to find user email and password
+        #using password for authentication illustration
+        for user in users:
+            #check if the password got == password registered
+            if user.get('password') == known_user.get('password'):
+                return jsonify({'You are logged in.Nice to see you again.': known_user.get('email')})
 
-@app.route('/api/v1/users/<int:user_id>', methods=["DELETE"])
-def delete_user():
-    """ 
-    Deleting an existing user endpoint.
-    ---
-    parameters:
-      - name: user_id
-        in: path
-        type: integer
-        required: true
-    """
+        return jsonify({'Please register': known_user.get('email')})
 
-
+"////////////////////////////////////////////////////////////////////////////////////////"
 # Ride
 @app.route('/api/v1/rides', methods=["POST"])
-def create_ride():
+def new_ride():
     """ 
     Creating a ride endpoint
     ---
@@ -125,61 +110,100 @@ def create_ride():
         in: application/json
         type: string
     """
+    new_ride = {
+        'id': request.json['id'],
+        'driver': request.json['driver'],
+        "start_loc" : request.json['start_loc'], 
+        "end_loc" : request.json['end_loc'],
+        "departure_time" : request.json['depature_time'], 
+        "date" : request.json['date'] , 
+        "route" : request.json['route'] , 
+        "cost" : request.json['cost']
+    }
 
+    """Append to the list holdng all ride details"""
+    rides.append(new_ride)
+  #new dictionary to add id and title
+    all_rides = {}
+  #loop through the dictionary and find all ids and titles
+
+    for ride in rides:
+        ride_id = str(ride.get('id'))
+        ride_title = ride.get('start_loc')+' - '+ ride.get('end_loc')
+
+        #add the id and title to dictionary
+        all_rides.update({ride_id: ride_title})
+    return jsonify(all_rides)
+
+"////////////////////////////////////////////////////////////////////////////////////////"
 @app.route("/api/v1/rides", methods=["GET"])
 def get_all_rides():
     """Fetching all rides endpoint
     """
+    all_rides = {}
+    for ride in rides:
+        ride_id = ride.get('id')
+        ride_title = ride.get('start_loc')+' - '+ ride.get('end_loc')
+    
+        #add the id and title to dictionary
+        all_rides.update({ride_id : ride_title})
+    return jsonify(all_rides)
+"/////////////////////////////////////////////////////////////////////////////////////"
+@app.route("/api/v1/rides/<int:id>", methods=["GET"])
+def get_ride(id):
+    
+  #loop through the rides and find ride with the id
+    for ride in rides:
 
-@app.route("/api/v1/rides/<int:ride_id>", methods=["GET"])
-def get_one_ride():
-    """Getting a specific ride endpoint.
-    ---
-    parameters:
-      - name: ride_id
-        in: path
-        type: integer
-        required: true
-    """
+      if ride.get('id') == id:
+            #store the ride details in variable
+            search = ride
+            # return the data in json format
+    return jsonify({'Ride': search})
+"////////////////////////////////////////////////////////////////////////////////////////////"
 
-@app.route('/api/v1/rides/<int:ride_id>', methods=["PUT"])
-def update_ride():
+@app.route('/api/v1/rides/<int:id>', methods=["GET", "PUT"])
+def update_ride(id):
     """ endpoint for updating an existing ride.
     ---
     
       parameters:
-      - name: driver
+      - name: ride_id
+        in: path
+        type: integer
         required: true
-        in: application/json
-        type: string
-      - name: start_loc
-        required: true
-        in: application/json
-        type: string
-      - name: end_loc
-        required: true
-        in: application/json
-        type: string
-      - name: time
-        in: application/json
-        type: string
-        required: true
-      - name: date
-        required: true
-        in: application/json
-        type: string
-      - name: route
-        required: true
-        in: application/json
-        type: string
-      - name: cost
-        required: true
-        in: application/json
-        type: string
+      - Create ride parameters
     """
+    """Loop through all rides and find ride with entered id"""
+    edit_details = {
+          'id': request.json['id'],
+          'driver': request.json['driver'],
+          "start_loc" : request.json['start_loc'], 
+          "end_loc" : request.json['end_loc'],
+          "departure_time" : request.json['departure_time'], 
+          "date" : request.json['date'] , 
+          "route" : request.json['route'] , 
+          "cost" : request.json['cost']
+        }
 
-@app.route('/api/v1/rides/<int:ride_id>', methods=["DELETE"])
-def delete_ride():
+    """Append to the list holdng all ride details"""
+    rides.append(edit_details)
+
+        #new dictionary to add id and title
+    all_rides = {}
+        #loop through the dictionary and find all ids and titles
+
+    for ride in rides:
+        ride_id = str(ride.get('id'))
+        ride_title = ride.get('start_loc')+' - '+ ride.get('end_loc')
+
+            #add the id and title to dictionary
+        all_rides.update({ride_id: ride_title})
+    return jsonify(all_rides)
+"//////////////////////////////////////////////////////////////////////////////////////"
+
+@app.route('/api/v1/rides/<int:id>', methods=["DELETE"])
+def delete_ride(id):
     """ eDeleting n existing ride endpoint.
     ---
     parameters:
@@ -188,11 +212,21 @@ def delete_ride():
         type: integer
         required: true
     """
+    #loop through rides ad find ride with id given
+    for ride in rides:
+        if ride.get('id')==id:
+            to_delete = ride
+            #find the index of the ride
+            ride_index = rides.index(to_delete)
 
+            #delete the ride entry
+            ride_deleted = rides.pop(ride_index)
 
+    return jsonify({'You deleted': ride_deleted})
+"/////////////////////////////////////////////////////////////////////////////////////////////"
 # request
-@app.route('/api/v1/requestride/<int:ride_id>', methods=["POST"])
-def request_ride():
+@app.route('/api/v1/rides/<int:id>/request', methods=["GET", "POST"])
+def ride_request(id):
     """ Requesting ride endpoint.
     ---
     parameters:
@@ -205,59 +239,23 @@ def request_ride():
         in: path
         type: string
     """
+    pickup_details = {
+          'pickup_loc': request.json['pickup_loc'],
+        }
 
-@app.route("/api/v1/requests", methods=["GET"])
-def get_all_requests():
-    """View all requests endpoint
-    """
+    """Append to the list holdng all ride details"""
+    rides.append(pickup_details)
 
-@app.route("/api/v1/requests/<int:request_id>", methods=["GET"])
-def get_one_request():
-    """View a specific request endpoint
-    ---
-    parameters:
-      - name: request_id
-        in: path
-        type: integer
-        required: true
-    """
+        #loop through the dictionary and find all ids and titles
 
-@app.route('/api/v1/requests/<int:request_id>', methods=["PUT"])
-def update_request():
-    """ Update a request endpoint
-    ---
-    parameters:
-      - name: ride_id
-        required: true
-        in: path
-        type: string
-      - name: pickup_loc
-        required: true
-        in: path
-        type: string
-    """
+    for ride in rides:
+        ride_id = str(ride.get('id'))
+        pickup = ride.get('pickup_loc')
 
-app.route('/api/v1/requested/<int:request_id>', methods=["PUT"])
-def update_request():
-    """ respond a request endpoint
-    ---
-    parameters
-      - name: request_id
-        required: true
-        in: path
-        type: string
-        """
-@app.route('/api/v1/requests/<int:request_id>', methods=["DELETE"])
-def delete_request():
-    """ Delete a request endpoint
-    ---
-    parameters:
-      - name: request_id
-        in: path
-        type: integer
-        required: true
-    """
-
+            #add the id and title to dictionary
+        req_ride = ({ride_id: pickup})
+    return jsonify(req_ride)
+"/////////////////////////////////////////////////////////////////////////////////////"
 @app.route('/')
 def hello_world():
     "Hello. Welcome to Ride-My-Way. Nice to see you"
