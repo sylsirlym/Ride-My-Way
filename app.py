@@ -1,114 +1,307 @@
+"""
+This gives the interactive documentation to help in getting started using the API
+"""
 import os
-
-from flask import Flask
-from flask import request
-from flask import jsonify
-from flask import make_response
+from flask import Flask,jsonify,request, make_response
 import json
 
 app = Flask (__name__)
+rides = [
+    {   'id' : 1 ,
+        'driver' : 'John Doe' ,
+        'start_loc' : 'Nairobi' , 
+        'end_loc' : 'Thika',
+        'departure_time' : '1800HRS' , 
+        'date' : '13/6/2018' , 
+        'route' : 'Thika Super Highway' , 
+        'cost' : '400'
+    } ,
+    {   
+        'id' : 2 ,
+        'driver' : 'Jane Doe' , 
+        'start_loc' : 'Nairobi', 
+        'end_loc' : 'Syokimau',
+        'departure_time' : '0900HRS', 
+        'date' : '14/6/2018' , 
+        'route' : 'Mombasa Road' , 
+        'cost' : '200'
+    }
+]
 
-"////////////////////////////////////////////////////////////////////"
-#@app.route('/api/v1/users/register',  methods = ['POST'])
-def register():
-    data = request.get_json()
-    fname = data['fname']
-    lname = data['lname']
-    email = data['email']
-    password = data['password']
-    return make_response(jsonify({
-                                 "status": "ok",
-                                 "fname": fname ,
-                                 "lname": lname , 
-                                 "email": email, 
-                                 "password": password
-                                 }), 201)
-"///////////////////////////////////////////////////////////////////////////" 
-#@app.route('/api/v1/users/login', methods=['GET', 'POST'])
+users =[
+    {
+        'fname':'John', 
+        'lname':'Doe', 
+        'email':'email@gmail.com',
+        'password':'pass123'
+    }
+]
+
+
+
+requested = [
+    {   'id' : '1',
+        'pickup_loc': 'Allsops'
+    }
+]
+
+dummy_user = {
+        'fname':'John', 
+        'lname':'Doe', 
+        'email':'mail@gmail.com',
+        'password':'pass123'
+    }
+
+
+# Users
+@app.route('/api/v1/users/register', methods=["GET", "POST"])
+def signup():
+    """ 
+    User registeration endpoint.
+    ---
+    parameters:
+      - name: fname
+        in: application/json
+        type: string
+        required: true
+      - name: lname
+        in: application/json
+        type: string
+        required: true
+      - name: email
+        in: application/json
+        type: string
+        required: true  
+      - name: password
+        in: application/json
+        type: string
+        required: true
+      - name: conf_password
+        in: application/json
+        type: string
+        required: true
+    """
+    if request.method == 'GET':
+        return jsonify({'fields to fill': users})
+    elif request.method == 'POST':
+        new_user = {
+            'fname': request.json['fname'],
+            'lname': request.json['lname'],
+            'email': request.json['email'],
+            'password': request.json['password']
+        }
+
+    #add the new use to list of users
+    users.append(new_user)
+    return jsonify({'users': users})
+"/////////////////////////////////////////////////////////////////////////////////////////"
+
+@app.route('/api/v1/users/login', methods=['GET', 'POST'])
 def login():
-    data = request.get_json()
-    email = data['email']
-    password = data['password']
-    return make_response(jsonify({
-                                 "status": "ok",
-                                 "email": email, 
-                                 "password": password,
-                                 "msg": "You are logged in.Nice to see you again." 
-                                 }), 200)
-"/////////////////////////////////////////////////////////////////////////////////////"
-#@app.route('/api/v1/rides', methods=['GET'])
-def allRides():
-    data = request.get_json()
-    driver = data['driver']
-    start_loc = data['start_loc']
-    end_loc = data['end_loc']
-    departure_time = data['departure_time']
-    date = data['date']
-    route = data['route']
-    cost = data['cost']
-    return make_response(jsonify({
-                                 "status": "Ok",
-                                 "driver": driver ,
-                                 "start_loc": start_loc , 
-                                 "end_loc": end_loc, 
-                                 "departure_time": departure_time,
-                                 "date": date, 
-                                 "route": route, 
-                                 "cost": cost
-                                 }), 200)
-"/////////////////////////////////////////////////////////////////////////////////////////////"                                
-#@app.route('/api/v1/rides/<int:id>', methods=['GET'])
-def ride(id):
-    data = request.get_json()
-    id = 1
-    driver = data['driver']
-    start_loc = data['start_loc']
-    end_loc = data['end_loc']
-    departure_time = data['departure_time']
-    date = data['date']
-    route = data['route']
-    cost = data['cost']
-    return make_response(jsonify({
-                                 "status": "Ok",
-                                 "driver": driver ,
-                                 "start_loc": start_loc , 
-                                 "end_loc": end_loc, 
-                                 "departure_time": departure_time,
-                                 "date": date, 
-                                 "route": route, 
-                                 "cost": cost
-                                 }), 200)
-"//////////////////////////////////////////////////////////////////////////////////////////////////"
-#@app.route('/api/v1/rides',  methods = ['POST'])
-def create_ride():
-    data = request.get_json()
-    id = data ['id']
-    driver = data['driver']
-    start_loc = data['start_loc']
-    end_loc = data['end_loc']
-    departure_time = data['departure_time']
-    date = data['date']
-    route = data['route']
-    cost = data['cost']
-    return make_response(jsonify({
-                                 "status": "Created",
-                                 "driver": driver ,
-                                 "start_loc": start_loc , 
-                                 "end_loc": end_loc, 
-                                 "departure_time": departure_time,
-                                 "date": date, 
-                                 "route": route, 
-                                 "cost": cost
-                                 }), 201)
-"///////////////////////////////////////////////////////////////////////////////////////////////"
-@app.route('/api/v1/rides/1/requests',  methods = ['POST'])
-def request_ride():
-    #data = request.get_json()
-    pickup_loc = data['pickup_loc']
-    return make_response(jsonify({
-                                 "status": "Created",
-                                 "pickup_loc": pickup_loc ,
-                                 }), 201)
-if __name__ == '__main__':
+    known_user = {
+        'email': '',
+        'password': ''
+    }
+    if request.method=='GET':
+        return jsonify({'Enter this':known_user})
 
+    elif request.method == 'POST':
+        known_user = {
+            'email': request.json['email'],
+            'password': request.json['password']
+        }
+        #loop through users to find user email and password
+        #using password for authentication illustration
+        for user in users:
+            #check if the password got == password registered
+            if user.get('password') == known_user.get('password'):
+                return jsonify({'You are logged in.Nice to see you again.': known_user.get('email')})
+
+        return jsonify({'Please register': known_user.get('email')})
+
+"////////////////////////////////////////////////////////////////////////////////////////"
+# Ride
+@app.route('/api/v1/rides', methods=["POST"])
+def new_ride():
+    """ 
+    Creating a ride endpoint
+    ---
+    parameters:
+      - name: driver
+        required: true
+        in: application/json
+        type: string
+      - name: start_loc
+        required: true
+        in: application/json
+        type: string
+      - name: end_loc
+        required: true
+        in: application/json
+        type: string
+      - name: time
+        in: application/json
+        type: string
+        required: true
+      - name: date
+        required: true
+        in: application/json
+        type: string
+      - name: route
+        required: true
+        in: application/json
+        type: string
+      - name: cost
+        required: true
+        in: application/json
+        type: string
+    """
+    new_ride = {
+        'id': request.json['id'],
+        'driver': request.json['driver'],
+        "start_loc" : request.json['start_loc'], 
+        "end_loc" : request.json['end_loc'],
+        "departure_time" : request.json['departure_time'], 
+        "date" : request.json['date'] , 
+        "route" : request.json['route'] , 
+        "cost" : request.json['cost']
+    }
+
+    """Append to the list holdng all ride details"""
+    #Issue a bad request error
+    if not request.json:
+        abort(400)
+    rides.append(new_ride) #append new ride to the other rides
+    return make_response(jsonify({'new_ride': new_ride}), 201)
+
+"////////////////////////////////////////////////////////////////////////////////////////"
+@app.route("/api/v1/rides", methods=["GET"])
+def get_all_rides():
+    """Fetching all rides endpoint
+    """
+    all_rides = {}
+    for ride in rides:
+        ride_id = ride.get('id')
+        ride_title = ride.get('start_loc')+' - '+ ride.get('end_loc')
+    
+        #add the id and title to dictionary
+        all_rides.update({ride_id : ride_title})
+    return jsonify(all_rides)
+"/////////////////////////////////////////////////////////////////////////////////////"
+@app.route("/api/v1/rides/<int:id>", methods=["GET"])
+def get_ride(id):
+    
+  #loop through the rides and find ride with the id
+    for ride in rides:
+
+      if ride.get('id') == id:
+            #store the ride details in variable
+            search = ride
+            # return the data in json format
+    return jsonify({'Ride': search})
+"////////////////////////////////////////////////////////////////////////////////////////////"
+
+@app.route('/api/v1/rides/<int:id>', methods=["GET", "PUT"])
+def update_ride(id):
+    """ endpoint for updating an existing ride.
+    ---
+    
+      parameters:
+      - name: ride_id
+        in: path
+        type: integer
+        required: true
+      - Create ride parameters
+    """
+    """Loop through all rides and find ride with entered id"""
+    edit_details = {
+          'id': request.json['id'],
+          'driver': request.json['driver'],
+          "start_loc" : request.json['start_loc'], 
+          "end_loc" : request.json['end_loc'],
+          "departure_time" : request.json['departure_time'], 
+          "date" : request.json['date'] , 
+          "route" : request.json['route'] , 
+          "cost" : request.json['cost']
+        }
+
+    """Append to the list holdng all ride details"""
+    rides.append(edit_details)
+
+        #new dictionary to add id and title
+    all_rides = {}
+        #loop through the dictionary and find all ids and titles
+
+    for ride in rides:
+        ride_id = str(ride.get('id'))
+        ride_title = ride.get('start_loc')+' - '+ ride.get('end_loc')
+
+            #add the id and title to dictionary
+        all_rides.update({ride_id: ride_title})
+    return jsonify(all_rides)
+"//////////////////////////////////////////////////////////////////////////////////////"
+
+@app.route('/api/v1/rides/<int:id>', methods=["DELETE"])
+def delete_ride(id):
+    """ eDeleting n existing ride endpoint.
+    ---
+    parameters:
+      - name: ride_id
+        in: path
+        type: integer
+        required: true
+    """
+    #loop through rides ad find ride with id given
+    for ride in rides:
+        if ride.get('id')==id:
+            to_delete = ride
+            #find the index of the ride
+            ride_index = rides.index(to_delete)
+
+            #delete the ride entry
+            ride_deleted = rides.pop(ride_index)
+
+    return jsonify({'You deleted': ride_deleted})
+"/////////////////////////////////////////////////////////////////////////////////////////////"
+# request
+@app.route('/api/v1/rides/<int:id>/request', methods=["GET", "POST"])
+def ride_request(id):
+    """ Requesting ride endpoint.
+    ---
+    parameters:
+      - name: ride_id
+        required: true
+        in: path
+        type: string
+      - name: pickup_loc
+        required: true
+        in: path
+        type: string
+    """
+    req = {
+          'id' : id,
+          'pickup_loc': request.json['pickup_loc'],
+        }
+
+        #loop through the dictionary and find all ids and titles
+    if not request.json:
+        abort(400)
+    requested.append(req) #append new ride to the other rides
+    return make_response(jsonify({'request': req}), 201)
+
+"/////////////////////////////////////////////////////////////////////////////////////"
+@app.route("/api/v1/rides/requested", methods=["GET"])
+def get_requests():
+    """Fetching all requested rides endpoint
+    """
+    return make_response(jsonify({'requested_rides': requested}), 200)
+
+"/////////////////////////////////////////////////////////////////////////////"
+@app.route('/')
+def hello_world():
+    "Hello. Welcome to Ride-My-Way. Nice to see you"
+    return "Check out my docs: https://ridemyway-api.herokuapp.com/"
+
+
+if __name__ == '__main__':
     app.run(debug=True)

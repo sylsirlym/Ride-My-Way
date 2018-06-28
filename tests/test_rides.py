@@ -45,5 +45,5 @@ class AppTestCase(unittest.TestCase):
         WHEN they want to request a ride
         THEN test that they can send a request
         '''
-        response = self.app.post('/api/v1/rides/1/requests', data = json.dumps(self.request) , content_type = 'application/json')
+        response = self.app.post('/api/v1/rides/1/request', data = json.dumps(self.request) , content_type = 'application/json')
         self.assertEqual(response.status_code, 201)
