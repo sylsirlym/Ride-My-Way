@@ -25,7 +25,6 @@ class AppTestCase(unittest.TestCase):
         THEN it checks the deatails
         """
         response = self.app.post('/api/v1/users/register', data = json.dumps(self.data) , content_type = 'application/json')
-        result = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
     "//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
     
@@ -36,7 +35,6 @@ class AppTestCase(unittest.TestCase):
         THEN it checks the details and authenticates
         """
         response = self.app.get('/api/v1/users/login', data = json.dumps(self.data) , content_type = 'application/json')
-        result = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
 
 
