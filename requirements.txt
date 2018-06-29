@@ -24,7 +24,6 @@ pytest==3.6.2
 pytest-cov==2.5.1
 pytest-forked==0.2
 pytest-xdist==1.22.2
-PyYAML==4.1
 six==1.11.0
 Werkzeug==0.14.1
 wrapt==1.10.11
