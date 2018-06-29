@@ -45,6 +45,13 @@ rides = [
     }
 ]
 
+ride_resp = [
+    {   
+        'req_id' : '1',
+        'respo': 'Accepted'
+    }
+]
+
 users =[
     {
         'fname':'John', 
@@ -59,6 +66,12 @@ users =[
 requested = [
     {   'id' : '1',
         'pickup_loc': 'Allsops'
+    }
+]
+
+ride_response = [
+    {   'ride_id' : '1',
+        'respo': 'Accepted'
     }
 ]
 
@@ -186,8 +199,6 @@ def new_ride():
 
     """Append to the list holdng all ride details"""
     #Issue a bad request error
-    if not request.json:
-        abort(400)
     rides.append(new_ride) #append new ride to the other rides
     return make_response(jsonify({'new_ride': new_ride}), 201)
 
@@ -281,7 +292,7 @@ def delete_ride(id):
     return jsonify({'You deleted': ride_deleted})
 "/////////////////////////////////////////////////////////////////////////////////////////////"
 # request
-@app.route('/api/v1/rides/<int:id>/request', methods=["GET", "POST"])
+@app.route('/api/v1/rides/<int:id>/requests', methods=["GET", "POST"])
 def ride_request(id):
     """ Requesting ride endpoint.
     ---
@@ -295,25 +306,47 @@ def ride_request(id):
         in: path
         type: string
     """
-    req = {
+    if request.method=='GET':
+        """Fetching all requested rides endpoint
+        """
+        return make_response(jsonify({'requested_rides': requested}), 200)
+    elif request.method=='PUT':
+        req = {
           'id' : id,
           'pickup_loc': request.json['pickup_loc'],
         }
 
         #loop through the dictionary and find all ids and titles
-    if not request.json:
-        abort(400)
     requested.append(req) #append new ride to the other rides
     return make_response(jsonify({'request': req}), 201)
 
 "/////////////////////////////////////////////////////////////////////////////////////"
-@app.route("/api/v1/rides/requested", methods=["GET"])
-def get_requests():
-    """Fetching all requested rides endpoint
+@app.route('/api/v1/rides/<int:id>/requests/<int:req_id>', methods=["PUT"])
+def respond(id,req_id):
+    """ Responding to requested rides
+    ---
+    parameters:
+      - name: request_id
+        required: true
+        in: path
+        type: string
+      - name: response
+        required: true
+        in: path
+        type: string
     """
-    return make_response(jsonify({'requested_rides': requested}), 200)
+    respo = {
+          'req_id' : req_id,
+          'respo': request.json['respo'],
+        }
+
+        #loop through the dictionary and find all ids and titles
+    ride_resp.append(respo) #append new ride to the other rides
+    return make_response(jsonify({'respo': respo}), 200)
 
 "/////////////////////////////////////////////////////////////////////////////"
+
+
 @app.route('/')
 def hello_world():
     "Hello. Welcome to Ride-My-Way. Nice to see you"
@@ -321,5 +354,6 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
     connectDB()
+    app.run(debug=True)
+    
