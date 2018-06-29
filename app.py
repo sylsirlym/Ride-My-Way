@@ -4,7 +4,7 @@ This gives the interactive documentation to help in getting started using the AP
 import os
 from flask import Flask,jsonify,request, make_response
 import json
-import psycopg2
+#import psycopg2
 
 app = Flask (__name__)
 
@@ -15,12 +15,12 @@ def connectDB():
      # Print the connection string we will use to connect
     
      # Initialize a connection, if a connect cannot be made an exception will be raised here
-    conn = psycopg2.connect(conn_string)
+    #conn = psycopg2.connect(conn_string)
  
 	 # conn.cursor will return a cursor object, used to perform queries
-    cursor = conn.cursor()
-    print ("Connected!\n")
-    conn.close()
+    #cursor = conn.cursor()
+    #print ("Connected!\n")
+    #conn.close()
 
 
 rides = [
