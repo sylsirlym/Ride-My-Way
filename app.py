@@ -2,16 +2,16 @@
 This gives the interactive documentation to help in getting started using the API
 """
 import os
-from flask import Flask,jsonify,request, make_response
+from flask import Flask,jsonify,request, make_response, abort
 import json
-#import psycopg2
+import psycopg2
 
 app = Flask (__name__)
 
-def connectDB():
+#def connectDB():
     
      #Define a connection string
-    conn_string = "host='localhost' dbname='ridemyway' user='postgres' password='Secrets'"
+    #conn_string = "host='localhost' dbname='ridemyway' user='postgres' password='Secrets'"
      # Print the connection string we will use to connect
     
      # Initialize a connection, if a connect cannot be made an exception will be raised here
@@ -24,25 +24,16 @@ def connectDB():
 
 
 rides = [
-    {   'id' : 1 ,
-        'driver' : 'John Doe' ,
-        'start_loc' : 'Nairobi' , 
-        'end_loc' : 'Thika',
-        'departure_time' : '1800HRS' , 
-        'date' : '13/6/2018' , 
-        'route' : 'Thika Super Highway' , 
-        'cost' : '400'
-    } ,
-    {   
-        'id' : 2 ,
-        'driver' : 'Jane Doe' , 
-        'start_loc' : 'Nairobi', 
-        'end_loc' : 'Syokimau',
-        'departure_time' : '0900HRS', 
-        'date' : '14/6/2018' , 
-        'route' : 'Mombasa Road' , 
-        'cost' : '200'
-    }
+    {       
+        "id" : 1,
+        "driver" : "John Doe" , 
+        "start_loc" : "Nairobi" , 
+        "end_loc" : "Thika",
+        "departure_time" : "1800HRS" , 
+        "date" : "13/6/2018" , 
+        "route" : "Thika Super Highway" , 
+        "cost" : "400"
+            } 
 ]
 
 ride_resp = [
@@ -69,7 +60,7 @@ requested = [
     }
 ]
 
-ride_response = [
+ride_resp = [
     {   'ride_id' : '1',
         'respo': 'Accepted'
     }
@@ -84,7 +75,7 @@ dummy_user = {
 
 
 # Users
-@app.route('/api/v1/users/register', methods=["GET", "POST"])
+@app.route('/api/v1/auth/register', methods=["GET", "POST"])
 def signup():
     """ 
     User registeration endpoint.
@@ -126,7 +117,7 @@ def signup():
     return jsonify({'users': users})
 "/////////////////////////////////////////////////////////////////////////////////////////"
 
-@app.route('/api/v1/users/login', methods=['GET', 'POST'])
+@app.route('/api/v1/auth/login', methods=['GET', 'POST'])
 def login():
     known_user = {
         'email': '',
@@ -187,7 +178,7 @@ def new_ride():
         type: string
     """
     new_ride = {
-        'id': request.json['id'],
+        'id': len(rides)+1,
         'driver': request.json['driver'],
         "start_loc" : request.json['start_loc'], 
         "end_loc" : request.json['end_loc'],
@@ -222,10 +213,12 @@ def get_ride(id):
   #loop through the rides and find ride with the id
     for ride in rides:
 
-      if ride.get('id') == id:
+        if ride.get('id') == id:
             #store the ride details in variable
             search = ride
             # return the data in json format
+        else:
+            search = {"Status":"Ride not found"}
     return jsonify({'Ride': search})
 "////////////////////////////////////////////////////////////////////////////////////////////"
 
@@ -243,7 +236,7 @@ def update_ride(id):
     """
     """Loop through all rides and find ride with entered id"""
     edit_details = {
-          'id': request.json['id'],
+          'id': id,
           'driver': request.json['driver'],
           "start_loc" : request.json['start_loc'], 
           "end_loc" : request.json['end_loc'],
@@ -271,7 +264,7 @@ def update_ride(id):
 
 @app.route('/api/v1/rides/<int:id>', methods=["DELETE"])
 def delete_ride(id):
-    """ eDeleting n existing ride endpoint.
+    """ Deleting an existing ride endpoint.
     ---
     parameters:
       - name: ride_id
@@ -306,22 +299,21 @@ def ride_request(id):
         in: path
         type: string
     """
-    if request.method=='GET':
-        """Fetching all requested rides endpoint
-        """
-        return make_response(jsonify({'requested_rides': requested}), 200)
-    elif request.method=='PUT':
-        req = {
-          'id' : id,
-          'pickup_loc': request.json['pickup_loc'],
-        }
+    req = {
+        'id' : id,
+        'pickup_loc': request.json['pickup_loc'],
+    }
 
         #loop through the dictionary and find all ids and titles
     requested.append(req) #append new ride to the other rides
-    return make_response(jsonify({'request': req}), 201)
+    return make_response(jsonify({'req': req}), 201)
+    
+@app.route('/api/v1/rides/<int:id>/requests', methods=["GET"])
+def ride_requests(id):
+    return make_response(jsonify({'requested_rides': requested}), 200)
 
 "/////////////////////////////////////////////////////////////////////////////////////"
-@app.route('/api/v1/rides/<int:id>/requests/<int:req_id>', methods=["PUT"])
+@app.route('/api/v1/rides/<int:id>/requests/<int:req_id>', methods=["POST"])
 def respond(id,req_id):
     """ Responding to requested rides
     ---
@@ -342,7 +334,7 @@ def respond(id,req_id):
 
         #loop through the dictionary and find all ids and titles
     ride_resp.append(respo) #append new ride to the other rides
-    return make_response(jsonify({'respo': respo}), 200)
+    return make_response(jsonify({'respo': respo}), 201)
 
 "/////////////////////////////////////////////////////////////////////////////"
 
@@ -354,6 +346,6 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    connectDB()
+    #connectDB()
     app.run(debug=True)
     
