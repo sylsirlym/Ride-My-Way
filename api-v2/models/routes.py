@@ -4,7 +4,7 @@ from os import environ
 from flask import Flask,jsonify,request, make_response, abort
 import json
 import psycopg2
-from models import User
+from models import User,Ride
 
 app = Flask (__name__)
 
@@ -27,6 +27,36 @@ def create_user():
     else:
         return jsonify({
                 "message" : "Please make sure all fileds are filled"}), 201
+
+@app.route('/api/v1/rides',  methods = ['POST'])
+def create_ride():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    start_loc = data.get('start_loc')
+    end_loc = data.get('end_loc')
+    departure_time = data.get('departure_time')
+    date = data.get('date')
+    route = data.get('route')
+    cost = data.get('cost')  
+
+    if user_id is not None and start_loc is not None and end_loc is not None and departure_time is not None and date is not None and route is not None and cost is not None:
+
+
+        Ride( 
+            user_id = user_id, 
+            start_loc = start_loc , 
+            end_loc = end_loc,  
+            departure_time=departure_time,
+            date = date, 
+            route = route,
+            cost = cost  
+            )
+        return jsonify({
+                "message" : "Succesfully created"}), 201
+
+    else:
+        return jsonify({
+                "message" : "Please fill in all the fields"}), 201
 
 @app.route('/')
 def hello_world():

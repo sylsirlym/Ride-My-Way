@@ -19,6 +19,15 @@ class AppTestCase(unittest.TestCase):
             "email":"mail@gmail.com",
             "password":"pass123"
             }
+        self.sample_ride = {
+            "driver" : "John Doe" , 
+            "start_loc" : "Nairobi" , 
+            "end_loc" : "Thika",
+            "departure_time" : "1800HRS" , 
+            "date" : "13/6/2018" , 
+            "route" : "Thika Super Highway" , 
+            "cost" : "400"
+            }
         
     
     def test_registration(self):
