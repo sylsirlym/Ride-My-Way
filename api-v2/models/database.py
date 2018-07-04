@@ -1,20 +1,18 @@
-from psycopg2 import connect 
+from os import environ
+from flask import Flask
+import config
+import psycopg2
 from psycopg2.extras import RealDictCursor #Access DB fields access columns only from keys
+app = Flask (__name__)
 
-class Database(object):
+class Database:
     def __init__(self, app=None):
-        self.app = app
-        if app is not None:
-            self.init_app(app)
-    
-    def init_app(self, app):
-        self.conn = connect("host='localhost' dbname='ridemyway' user='postgres' password='Secrets'")
-        #Return a cursor object, used to perform queries, assign the object to cur
-        self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+        dbe= config.Config.db
+        self.conn=psycopg2.connect(dbname=dbe["DATABASE_NAME"], user=dbe["DATABASE_USER"],password=dbe["DATABASE_PASS"],host=dbe["DATABASE_HOST"])        
+        self.cur = self.conn.cursor()
 
-    def query(self, query):
-        self.cur.execute(query)
+    def commit(self):
+        self.conn.commit()
 
-    def close(self):
-        self.cur.close()
-        self.conn.close()
+    def cursor(self):
+        return self.cur
