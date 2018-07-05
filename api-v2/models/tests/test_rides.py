@@ -27,5 +27,6 @@ class AppTestCase(unittest.TestCase):
 
         response = self.app.post('/api/v1/rides', data = json.dumps(self.sample_ride), content_type = 'application/json')
         self.assertEqual(response.status_code, 201)
+        
 if __name__ == '__main__':
     unittest.main()

@@ -41,7 +41,6 @@ def create_ride():
 
     if user_id is not None and start_loc is not None and end_loc is not None and departure_time is not None and date is not None and route is not None and cost is not None:
 
-
         Ride( 
             user_id = user_id, 
             start_loc = start_loc , 
@@ -57,6 +56,13 @@ def create_ride():
     else:
         return jsonify({
                 "message" : "Please fill in all the fields"}), 201
+
+# @app.route('/api/v1/rides')
+# def get_rides():
+#     ryde = 
+#     rides =  ryde.get_all()
+
+#     return jsonify({'rides': rides})
 
 @app.route('/')
 def hello_world():

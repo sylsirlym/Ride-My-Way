@@ -18,7 +18,7 @@ class Database:
 
 database = Database()
 
-class User(Database):
+class User():
 
     def __init__(self, fname, lname,email,password):
         super().__init__()
@@ -27,7 +27,7 @@ class User(Database):
         self.email = email
         self.password = password
     
-    def create_user(self):
+    #def create_user(self):
         cursor = database.cursor()
         cursor.execute("INSERT INTO users (fname, lname, email, password) VALUES (%s, %s, %s, %s)",
                                     (self.fname, self.lname, self.email, self.password))
@@ -42,9 +42,10 @@ class Ride():
         self.date = date
         self.route = route
         self.cost = cost
-
+    def create_ride()
         cursor = database.cursor()
         cursor.execute("INSERT INTO rides (user_id, start_loc, end_loc, depature_time, date, route, cost) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                                     (self.user_id, self.start_loc, self.end_loc, self.departure_time, self.date,self.route,self.cost))
         database.commit()
-
+   
+        
