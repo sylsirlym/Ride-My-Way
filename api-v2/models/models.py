@@ -83,10 +83,6 @@ class Ride():
         cur.execute("SELECT * FROM rides WHERE id=%s", (ride_id,))
         row = cur.fetchone()
 
-        # if row is None:
-        #     return jsonify({
-        #         "message" : "Ride not found"}), 404
-
         rides = {}
         rides[row[0]] = {
             'user_id': row[1],
@@ -123,7 +119,6 @@ class Request:
             cur.execute("SELECT id FROM users WHERE email=%s", (email,))
             use_id = cur.fetchone()
             user_id = use_id[0]
-            #import pdb; pdb.set_trace()
             cur.execute("SELECT * FROM requests WHERE user_id = %s AND ride_id = %s",(user_id,self.ride_id,))
             rows = cur.fetchall()
 

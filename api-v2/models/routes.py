@@ -67,7 +67,6 @@ def create_ride():
     cur.execute("SELECT id FROM users WHERE email=%s", (email,))
     user_id = cur.fetchone()
     data = request.get_json()
-    # user_id = data.get('user_id')
     start_loc = data.get('start_loc')
     end_loc = data.get('end_loc')
     departure_time = data.get('departure_time')
@@ -143,13 +142,16 @@ def get_requests(ride_id):
 def request_respo(ride_id, req_id):
     
     data = request.get_json()
-    respo = data.get('respo'),
+    respo = data['status']
+    
 
 
     if respo is not None:
         req_resp = Request()
         status = req_resp.requests_resp(respo, req_id)
+        import pdb; pdb.set_trace()
     return jsonify({'msg': "Request has been " + status})
+    
 
 @app.route('/')
 def hello_world():
