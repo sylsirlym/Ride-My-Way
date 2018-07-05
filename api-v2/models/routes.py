@@ -30,10 +30,10 @@ def create_user():
                     }), 201
         else:
             return jsonify({
-                "message" : "Please match your password"}), 201
+                "message" : "Please match your password"}), 401
     else:
         return jsonify({
-                "message" : "Please make sure all fileds are filled"}), 401
+                "message" : "Please make sure all fileds are filled"}), 400
 
 @app.route('/api/v1/auth/login', methods=['POST'])
 def login():
@@ -91,7 +91,7 @@ def create_ride():
 
     else:
         return jsonify({
-                "message" : "Please fill in all the fields"}), 201
+                "message" : "Please fill in all the fields"}), 400
 
 @app.route('/api/v1/rides', methods = ['GET'])
 def get_rides():
@@ -127,7 +127,7 @@ def create_request(ride_id):
                 "message" : "Request successfully submitted"}), 201)
     else:
         return jsonify({
-                "message" : "Please fill in all the fields"}), 201  
+                "message" : "Please fill in all the fields"}), 400  
 
 @app.route('/api/v1/rides/<int:ride_id>/requests', methods = ['GET'])
 @jwt_required
@@ -143,14 +143,12 @@ def request_respo(ride_id, req_id):
     
     data = request.get_json()
     respo = data['status']
-    
-
 
     if respo is not None:
         req_resp = Request()
         status = req_resp.requests_resp(respo, req_id)
         import pdb; pdb.set_trace()
-    return jsonify({'msg': "Request has been " + status})
+    return jsonify({'msg': "Request has been " + status}, 200)
     
 
 @app.route('/')
