@@ -42,10 +42,18 @@ class Ride():
         self.date = date
         self.route = route
         self.cost = cost
-    def create_ride()
+    # def create_ride()
         cursor = database.cursor()
         cursor.execute("INSERT INTO rides (user_id, start_loc, end_loc, depature_time, date, route, cost) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                                     (self.user_id, self.start_loc, self.end_loc, self.departure_time, self.date,self.route,self.cost))
         database.commit()
-   
-        
+
+class Request():
+        def __init__(self, ride_id =None,pickup_loc=None):
+            self.ride_id = ride_id
+            self.pickup_loc = pickup_loc
+        def created_req(self):
+            cursor = database.cursor()
+            cursor.execute("INSERT INTO requests (ride_id, pickup_loc) VALUES (%s, %s)",
+                                        (self.ride_id, self.pickup_loc))
+            database.commit()

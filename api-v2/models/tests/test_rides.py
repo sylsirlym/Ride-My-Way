@@ -22,11 +22,19 @@ class AppTestCase(unittest.TestCase):
             "route" : "Thika Super Highway" , 
             "cost" : "400"
             }
+        self.sample_req = {
+            "pickup_loc":"Roy"
+        }
 
     def test_create_ride(self):
 
         response = self.app.post('/api/v1/rides', data = json.dumps(self.sample_ride), content_type = 'application/json')
         self.assertEqual(response.status_code, 201)
-        
+    
+    def test_create_riquest(self):
+
+        response = self.app.post('/api/v1/rides/1/requests', data = json.dumps(self.sample_req), content_type = 'application/json')
+        self.assertEqual(response.status_code, 201)
+
 if __name__ == '__main__':
     unittest.main()

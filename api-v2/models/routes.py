@@ -4,8 +4,7 @@ from os import environ
 from flask import Flask,jsonify,request, make_response, abort
 import json
 import psycopg2
-from models import User,Ride
-
+from models import User,Ride,Request
 app = Flask (__name__)
 
 @app.route('/api/v1/auth/register', methods = ['POST'])
@@ -57,12 +56,23 @@ def create_ride():
         return jsonify({
                 "message" : "Please fill in all the fields"}), 201
 
-# @app.route('/api/v1/rides')
-# def get_rides():
-#     ryde = 
-#     rides =  ryde.get_all()
+@app.route('/api/v1/rides/<int:id>/requests',  methods = ['POST'])
+def create_request(id):
+    data = request.get_json()
+    ride_id = data.get('ride_id'),
+    pickup_loc = data.get('pickup_loc'),
+    
+    
+    if ride_id is not None and pickup_loc is not None and status is not None:
 
-#     return jsonify({'rides': rides})
+        Request(ride_id=ride_id, pickup_loc= pickup_loc)
+
+        return (jsonify({
+                "message" : "Request successfully submitted"}), 201)
+    else:
+        return jsonify({
+                "message" : "Please fill in all the fields"}), 201  
+
 
 @app.route('/')
 def hello_world():
