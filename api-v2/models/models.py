@@ -2,7 +2,8 @@ import os
 import psycopg2
 import config
 from flask import jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import get_jwt_identity
+from werkzeug.security import generate_password_hash
 
 def dbconn():
     dbe= config.Config.db
@@ -11,20 +12,32 @@ def dbconn():
 
 class User():
 
-    def __init__(self, fname, lname,email,password):
-        super().__init__()
-        self.fname = fname
-        self.lname = lname
-        self.email = email
-        self.password = password
+    def __init__(self, fname=None, lname=None,email=None,password=None):
+        # super().__init__()
+        if fname and lname and email and password:
+            self.fname = fname
+            self.lname = lname
+            self.email = email
+            self.password = generate_password_hash(password)
     
     def create_user(self):
         conn = dbconn()
         cur = conn.cursor()
-        cur.execute("INSERT INTO users (fname, lname, email, password) VALUES (%s, %s, %s, %s)",
+        cur.execute("INSERT INTO users (fname, lname, email, password) VALUES (%s, %s, %s, %s) RETURNING id",
                                     (self.fname, self.lname, self.email, self.password))
+        id = cur.fetchone()[0]
         conn.commit()
         conn.close()
+        return id
+    
+    def login(self, email, password):
+        conn = dbconn()
+        cur = conn.cursor()
+        cur.execute("SELECT password FROM users WHERE email = %s", (email,))
+        row = cur.fetchone()
+        return row
+        
+            
 
 class Ride():
     def __init__(self, user_id=None, start_loc=None, end_loc=None,departure_time=None, date=None, route=None, cost=None):
@@ -88,23 +101,30 @@ class Ride():
         return rides
 
 
-class Request():
-        def __init__(self, ride_id =None,pickup_loc=None):
+class Request:
+        def __init__(self=None, ride_id =None,pickup_loc=None, user_id =None):
             self.ride_id = ride_id
             self.pickup_loc = pickup_loc
+            self.user_id = user_id
         def created_req(self):
             conn = dbconn()
             cur = conn.cursor()
-            cur.execute("INSERT INTO requests (ride_id, pickup_loc) VALUES (%s, %s)",
-                                        [self.ride_id, self.pickup_loc])
+            cur.execute("INSERT INTO requests (ride_id, pickup_loc, user_id) VALUES (%s, %s, %s)",
+                                        [self.ride_id, self.pickup_loc, self.user_id])
             conn.commit()
             conn.close()
     
-        @staticmethod
-        def get_requests():
+        #@staticmethod
+        def get_requests(self):
+            
             conn = dbconn()
             cur = conn.cursor()
-            cur.execute("SELECT * FROM requests;")
+            email = get_jwt_identity()
+            cur.execute("SELECT id FROM users WHERE email=%s", (email,))
+            use_id = cur.fetchone()
+            user_id = use_id[0]
+            #import pdb; pdb.set_trace()
+            cur.execute("SELECT * FROM requests WHERE user_id = %s AND ride_id = %s",(user_id,self.ride_id,))
             rows = cur.fetchall()
 
             req = {}
