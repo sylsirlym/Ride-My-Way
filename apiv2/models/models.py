@@ -4,7 +4,7 @@ import config
 from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
 from werkzeug.security import generate_password_hash
-from schema import Userschema, rideschema, requestschema
+# from schema import Userschema, rideschema, requestschema
 def dbconn():
     dbe= config.Config.db
     conn=psycopg2.connect(dbname=dbe["DATABASE_NAME"], user=dbe["DATABASE_USER"],password=dbe["DATABASE_PASS"],host=dbe["DATABASE_HOST"])
