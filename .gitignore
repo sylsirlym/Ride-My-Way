@@ -4,3 +4,9 @@ UI
 .vscode
 api/
 __pycache__
+testdb.py
+config.py
+.env
+api-v2/models/ex.py
+app/
+
