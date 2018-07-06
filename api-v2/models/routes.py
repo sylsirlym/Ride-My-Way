@@ -49,7 +49,7 @@ def login():
                 return jsonify({
                         "message" : "Welcome to Ride-My-Way",
                         "token" : access_token,
-                        }), 201
+                        }), 200
             else:
                 return jsonify({
                         "message" : "Input the correct password",
@@ -147,7 +147,6 @@ def request_respo(ride_id, req_id):
     if respo is not None:
         req_resp = Request()
         status = req_resp.requests_resp(respo, req_id)
-        import pdb; pdb.set_trace()
     return jsonify({'msg': "Request has been " + status}, 200)
     
 
