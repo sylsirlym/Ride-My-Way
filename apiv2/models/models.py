@@ -4,7 +4,7 @@ import config
 from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
 from werkzeug.security import generate_password_hash
-
+from schema import Userschema, rideschema, requestschema
 def dbconn():
     dbe= config.Config.db
     conn=psycopg2.connect(dbname=dbe["DATABASE_NAME"], user=dbe["DATABASE_USER"],password=dbe["DATABASE_PASS"],host=dbe["DATABASE_HOST"])
@@ -13,7 +13,6 @@ def dbconn():
 class User():
 
     def __init__(self, fname=None, lname=None,email=None,password=None):
-        # super().__init__()
         if fname and lname and email and password:
             self.fname = fname
             self.lname = lname
@@ -102,6 +101,7 @@ class Request:
             self.ride_id = ride_id
             self.pickup_loc = pickup_loc
             self.user_id = user_id
+        
         def created_req(self):
             conn = dbconn()
             cur = conn.cursor()

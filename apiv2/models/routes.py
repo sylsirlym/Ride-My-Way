@@ -9,6 +9,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from models import User,Ride,Request, dbconn
 
 app = Flask (__name__)
+
 app.config['JWT_SECRET_KEY'] = 'secrets'
 JWT_MANAGER=JWTManager()
 JWT_MANAGER.init_app(app)
@@ -24,7 +25,7 @@ def create_user():
     if fname is not None and lname is not None and email is not None and password is not None and cpass is not None: #Check deatils
         if cpass == password:
             new_user=User(fname=fname, lname=lname, email=email, password=password)
-            #user_id = new_user.create_user()
+            new_user.create_user()
             return jsonify({
                     "message" : "Welcome to Ride-My-Way"
                     }), 201
@@ -147,6 +148,7 @@ def request_respo(ride_id, req_id):
     if respo is not None:
         req_resp = Request()
         status = req_resp.requests_resp(respo, req_id)
+
     return jsonify({'msg': "Request has been " + status}, 200)
     
 
