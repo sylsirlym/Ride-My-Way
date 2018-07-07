@@ -104,8 +104,9 @@ def get_rides():
 def get_ride(ride_id):
 
     rides = Ride.get_ride(ride_id)
-    
-    return jsonify({'rides': rides})
+    if len(rides) != 0:
+        return jsonify({'rides': rides})
+    return jsonify ({"message": "Ride not found"})
 
 #Request
 @app.route('/api/v1/rides/<int:ride_id>/requests',  methods = ['POST'])
@@ -119,37 +120,67 @@ def create_request(ride_id):
     data = request.get_json()
     ride_id = ride_id,
     pickup_loc = data.get('pickup_loc'),
-    
-    if ride_id is not None and pickup_loc is not None:
+    #Check if ride is available, and select its creator
+    cur.execute("SELECT user_id FROM rides WHERE id=%s", (ride_id,))
+    u_id = cur.fetchone()
+    if u_id is not None:
+         
+        if u_id != user_id:
 
-        new_req = Request(ride_id=ride_id, pickup_loc= pickup_loc, user_id=user_id)
-        new_req.created_req()
-        return (jsonify({
-                "message" : "Request successfully submitted"}), 201)
+            if pickup_loc is not None:
+
+                new_req = Request(ride_id=ride_id, pickup_loc= pickup_loc, user_id=user_id)
+                new_req.created_req()
+                return (jsonify({
+                        "message" : "Request successfully submitted"}), 201)
+            else:
+                return (jsonify({
+                        "message" : "Please fill in all the fields"}), 400)
+        else: return (jsonify({
+                        "message": "You cannot request your own ride"}),400)
     else:
-        return jsonify({
-                "message" : "Please fill in all the fields"}), 400  
+        return  (jsonify({
+                "mesaage":"Ride is not found"}), 400)   
 
 @app.route('/api/v1/rides/<int:ride_id>/requests', methods = ['GET'])
 @jwt_required
 def get_requests(ride_id):
+    conn = dbconn()
+    cur = conn.cursor()
+    email = get_jwt_identity()
+    cur.execute("SELECT id FROM users WHERE email=%s", (email,))
+    user_id = cur.fetchone()
+    cur.execute("SELECT id FROM rides WHERE user_id=%s", (user_id,))
+    r_id = cur.fetchone()
+    if r_id == ride_id:
+        new_req = Request(ride_id=ride_id)
+        requests = new_req.get_requests()
+        return (jsonify({'requests': requests}), 200)
+    else:
+        return (jsonify({'message': "You cannot view request to this ride. It is not your ride"}), 400)
 
-    new_req = Request(ride_id=ride_id)
-    requests = new_req.get_requests()
-    return jsonify({'requests': requests})
 
 @app.route('/api/v1/rides/<int:ride_id>/requests/<int:req_id>', methods = ['PUT'])
 @jwt_required
 def request_respo(ride_id, req_id):
-    
-    data = request.get_json()
-    respo = data['status']
+    conn = dbconn()
+    cur = conn.cursor()
+    email = get_jwt_identity()
+    cur.execute("SELECT id FROM users WHERE email=%s", (email,))
+    user_id = cur.fetchone()
+    cur.execute("SELECT id FROM rides WHERE user_id=%s", (user_id,))
+    r_id = cur.fetchone()
+    if r_id == ride_id:
+        data = request.get_json()
+        respo = data['status']
 
-    if respo is not None:
-        req_resp = Request()
-        status = req_resp.requests_resp(respo, req_id)
+        if respo is not None:
+            req_resp = Request()
+            status = req_resp.requests_resp(respo, req_id)
 
-    return jsonify({'msg': "Request has been " + status}, 200)
+        return jsonify({'msg': "Request has been " + status}, 200)
+    else:
+        return (jsonify({'message': "You cannot respond to requests made to this ride. It is not your ride"}), 400)
     
 
 @app.route('/')

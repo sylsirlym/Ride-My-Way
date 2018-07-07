@@ -80,20 +80,23 @@ class Ride():
         conn = dbconn()
         cur = conn.cursor()
         cur.execute("SELECT * FROM rides WHERE id=%s", (ride_id,))
+        # cur.execute("SELECT * FROM rides WHERE id=9")
         row = cur.fetchone()
-
         rides = {}
-        rides[row[0]] = {
-            'user_id': row[1],
-            'start_loc':row[2],
-            'end_loc': row[3],
-            'departure_time': row[4],
-            'date': row[5],
-            'route': row[6],
-            'cost': row[7]
-        }
+        if row is not None:
+            rides[row[0]] = {
+                'user_id': row[1],
+                'start_loc':row[2],
+                'end_loc': row[3],
+                'departure_time': row[4],
+                'date': row[5],
+                'route': row[6],
+                'cost': row[7]
+            }
 
-        return rides
+            return rides
+        else:
+            return rides
 
 
 class Request:
