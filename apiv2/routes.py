@@ -7,6 +7,8 @@ import json
 import psycopg2
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from models import User,Ride,Request, dbconn
+from marshmallow import Schema, fields
+from schema import Userschema, rideschema, requestschema, responsechema
 
 app = Flask (__name__)
 
@@ -16,7 +18,11 @@ JWT_MANAGER.init_app(app)
 
 @app.route('/api/v1/auth/register', methods = ['POST'])
 def create_user():
-    data = request.get_json()
+    in_data = request.get_json()
+    data = Userschema.load(in_data)
+    # import pdb; pdb.set_trace()
+    # if errors:
+    #     return (errors), 400
     fname = data.get('fname')
     lname = data.get('lname')
     email = data.get('email')
@@ -67,7 +73,8 @@ def create_ride():
     email = get_jwt_identity()
     cur.execute("SELECT id FROM users WHERE email=%s", (email,))
     user_id = cur.fetchone()
-    data = request.get_json()
+    in_data = request.get_json()
+    data = rideschema.load(in_data)
     start_loc = data.get('start_loc')
     end_loc = data.get('end_loc')
     departure_time = data.get('departure_time')
@@ -117,7 +124,8 @@ def create_request(ride_id):
     email = get_jwt_identity()
     cur.execute("SELECT id FROM users WHERE email=%s", (email,))
     user_id = cur.fetchone()
-    data = request.get_json()
+    in_data = request.get_json()
+    data = requestschema.load(in_data)
     ride_id = ride_id,
     pickup_loc = data.get('pickup_loc'),
     #Check if ride is available, and select its creator
@@ -171,7 +179,8 @@ def request_respo(ride_id, req_id):
     cur.execute("SELECT id FROM rides WHERE user_id=%s", (user_id,))
     r_id = cur.fetchone()
     if r_id == ride_id:
-        data = request.get_json()
+        in_data = request.get_json()
+        data = requestschema.load(in_data)
         respo = data['status']
 
         if respo is not None:

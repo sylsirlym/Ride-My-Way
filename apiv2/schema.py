@@ -31,6 +31,7 @@ class UserSchema(Schema):
     """user input schema """
     fname = fields.Str(validate=validate_name, required=True)
     lname = fields.Str(validate=validate_name, required=True)
+    email = fields.Str(validate=validate_name, required=True)
     password = fields.Str(validate=validate_password, required=True) 
     cpass = fields.Str(validate=validate_password, required=True)
 Userschema = UserSchema()
@@ -49,3 +50,8 @@ class RequestSchema(Schema):
     "ride input schema"
     pickup_loc = fields.Str(validate=validate_name, required=True)
 requestschema = RequestSchema()
+
+class ResponseSchema(Schema):
+    "response input schema"
+    respo = fields.Str(validate=validate_name, required=True)
+responsechema = ResponseSchema()
