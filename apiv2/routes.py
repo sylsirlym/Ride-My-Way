@@ -20,6 +20,7 @@ JWT_MANAGER.init_app(app)
 def create_user():
     in_data = request.get_json()
     data = Userschema.load(in_data)
+    # data, errors = Userschema.load(in_data)
     # import pdb; pdb.set_trace()
     # if errors:
     #     return (errors), 400
